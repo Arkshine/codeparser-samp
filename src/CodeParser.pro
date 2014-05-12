@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,13 +20,14 @@ unix {
     LIBS += -lboost_regex
 }
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
+SOURCES += main.cpp \
+    mainwindow.cpp \
     codeparser.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += main.h \
+    mainwindow.h \
     codeparser.h
 
-FORMS    += mainwindow.ui
+FORMS += mainwindow.ui
 
 CONFIG += c++11

@@ -2,7 +2,6 @@
 #include <QMessageBox>
 #include <QTextStream>
 
-#include <iostream>
 #include <sstream>
 
 #include "mainwindow.h"
@@ -52,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete parser;
+    delete config;
     delete ui;
 }
 

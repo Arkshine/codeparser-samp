@@ -30,8 +30,6 @@ public:
     CodeParser *setNotepadUserDefFile(QString path);
     CodeParser *setNotepadPawnFile(QString path);
 
-    int getParsedLineCount();
-
     QString getSourceFile();
     QString getPawnccFile();
     QString getSublimeOutputFile();
@@ -41,6 +39,8 @@ public:
     std::vector<Function> getFunctions();
     QString getSublimeOutput();
     QPair<QString, QString> getNotepadOutput();
+
+    int getParsedLineCount();
 
     static QString limitStringLengthFromEnd(QString string, int limit);
 
@@ -53,9 +53,6 @@ private:
 
     int lines_parsed = 0;
     std::vector<Function> functions;
-
-private slots:
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };
 
 #endif // CODEPARSER_H
