@@ -16,6 +16,10 @@ win32 {
     LIBS += -LD:\Boost\1.55.0\lib64-msvc-12.0
 }
 
+unix {
+    LIBS += -lboost_regex
+}
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     codeparser.cpp
