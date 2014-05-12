@@ -186,6 +186,7 @@ QPair<QString, QString> CodeParser::getNotepadOutput()
 
         for(std::vector<std::string>::iterator p_it = it->params.begin(); p_it != it->params.end(); ++p_it)
         {
+            boost::replace_all(*p_it, "\\\"", "'");
             line << "\t\t\t\t<Param name=\"" << *p_it << "\" />\n";
         }
 
