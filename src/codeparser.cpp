@@ -45,9 +45,12 @@ QString CodeParser::runPreprocessor()
     if(result.contains("aborted"))
     {
         QMessageBox error;
+        error.setWindowTitle("An error occurred while preprocessing the source file");
         error.setText(result);
-        error.setWindowTitle("An error occurred while parsing the source file");
+        error.setIcon(QMessageBox::Warning);
         error.exec();
+
+        temp_file = "";
     }
 
     return temp_file;

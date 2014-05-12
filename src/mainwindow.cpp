@@ -180,6 +180,12 @@ void MainWindow::on_generateSublimeBtn_clicked()
     ui->statusBar->showMessage("Running the preprocessor...");
     QString preprocessed_file_path = parser->runPreprocessor();
 
+    if(!preprocessed_file_path.length())
+    {
+        ui->statusBar->showMessage("The file could not be parsed. Please fix the compiler errors, and try again.");
+        return;
+    }
+
     ui->statusBar->showMessage("Parsing...");
     parser->parse(preprocessed_file_path);
 
@@ -221,6 +227,12 @@ void MainWindow::on_generateNotepadBtn_clicked()
 
     ui->statusBar->showMessage("Running the preprocessor...");
     QString preprocessed_file_path = parser->runPreprocessor();
+
+    if(!preprocessed_file_path.length())
+    {
+        ui->statusBar->showMessage("The file could not be parsed. Please fix the compiler errors, and try again.");
+        return;
+    }
 
     ui->statusBar->showMessage("Parsing...");
     parser->parse(preprocessed_file_path);
