@@ -66,7 +66,7 @@ QString CodeParser::parse(QString path)
     QFile source(path);
     if(source.open(QIODevice::ReadOnly))
     {
-        boost::regex rx_parse_function("(native|forward|stock)( |\\t)+([a-zA-Z]+[ \\t]*:[ \\t]*|)([a-zA-Z0-9_]+)(| |\\t)(\\()([a-zA-Z0-9 ,.\\[\\]=\\t&\\\"'-:_{}]*)(\\))([\\t ]*)");
+        boost::regex rx_parse_function("(native|forward|stock)( |\\t)+([a-zA-Z0-9]+[ \\t]*:[ \\t]*|)([a-zA-Z0-9_@]+)(| |\\t)[(](.*)[)]([\\t ]*)");
 
         QTextStream in(&source);
         int line_number = 1;
@@ -85,7 +85,7 @@ QString CodeParser::parse(QString path)
                     std::string type = match[1];
                     std::string return_type = match[3];
                     std::string function = match[4];
-                    std::string params_raw = match[7];
+                    std::string params_raw = match[6];
                     std::vector<std::string> params;
 
                     std::stringstream ss(params_raw);
