@@ -1,8 +1,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QDebug>
 
 #include <sstream>
+#include <iostream>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -51,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete debug_info;
     delete parser;
     delete config;
     delete ui;
@@ -171,28 +174,33 @@ void MainWindow::on_generateSublimeBtn_clicked()
         QMessageBox alert;
         alert.setIcon(QMessageBox::Warning);
         alert.setWindowTitle("Save configuration");
-        alert.setText("The completion file for Sublime Text is not writeable.");
+        alert.setText("The completion file for Sublime Text is not writable.");
         alert.exec();
         return;
     }
 
     ui->statusBar->show();
-
-    ui->statusBar->showMessage("Running the preprocessor...");
-    QString preprocessed_file_path = parser->runPreprocessor();
-
-    if(!preprocessed_file_path.length())
-    {
-        ui->statusBar->showMessage("The file could not be parsed. Please fix the compiler errors, and try again.");
-        return;
-    }
-
     ui->statusBar->showMessage("Parsing...");
-    parser->parse(preprocessed_file_path);
+
+    parser->reset();
+    parser->combineFiles(parser->getSourceFile());
+    parser->parse();
 
     std::stringstream ss;
-    ss << "Parsed " << parser->getParsedLineCount() << " lines, found " << parser->getFunctions().size() << " functions.";
+    ss << "Parsed " << parser->getParsedLineCount() << " lines, found " << parser->getFunctions().size() << " functions and " << parser->getDefinitions().size() << " definitions.";
     ui->statusBar->showMessage(QString::fromStdString(ss.str()));
+
+    if(ui->showDetailedResults->isChecked())
+    {
+        debug_info = new DebugInfo();
+        debug_info
+                ->setDefinitions(parser->getDefinitions())
+                ->setFunctions(parser->getFunctions())
+                ->setSkippedDefinitions(parser->getSkippedDefinitions())
+                ->setSkippedFunctions(parser->getSkippedFunctions());
+
+        debug_info->show();
+    }
 
     output_file.write(parser->getSublimeOutput().toUtf8().constData());
     output_file.close();
@@ -225,22 +233,27 @@ void MainWindow::on_generateNotepadBtn_clicked()
     }
 
     ui->statusBar->show();
-
-    ui->statusBar->showMessage("Running the preprocessor...");
-    QString preprocessed_file_path = parser->runPreprocessor();
-
-    if(!preprocessed_file_path.length())
-    {
-        ui->statusBar->showMessage("The file could not be parsed. Please fix the compiler errors, and try again.");
-        return;
-    }
-
     ui->statusBar->showMessage("Parsing...");
-    parser->parse(preprocessed_file_path);
+
+    parser->reset();
+    parser->combineFiles(parser->getSourceFile());
+    parser->parse();
 
     std::stringstream ss;
-    ss << "Parsed " << parser->getParsedLineCount() << " lines, found " << parser->getFunctions().size() << " functions.";
+    ss << "Parsed " << parser->getParsedLineCount() << " lines, found " << parser->getFunctions().size() << " functions and " << parser->getDefinitions().size() << " definitions.";
     ui->statusBar->showMessage(QString::fromStdString(ss.str()));
+
+    if(ui->showDetailedResults->isChecked())
+    {
+        debug_info = new DebugInfo();
+        debug_info
+                ->setDefinitions(parser->getDefinitions())
+                ->setFunctions(parser->getFunctions())
+                ->setSkippedDefinitions(parser->getSkippedDefinitions())
+                ->setSkippedFunctions(parser->getSkippedFunctions());
+
+        debug_info->show();
+    }
 
     QString pawn_string = parser->getNotepadOutput().first;
     QString user_def_string = parser->getNotepadOutput().second;

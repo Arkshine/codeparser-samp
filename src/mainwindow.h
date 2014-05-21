@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QSettings>
+
 #include "codeparser.h"
+#include "debuginfo.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +40,8 @@ private:
     Ui::MainWindow *ui;
     CodeParser *parser;
     QSettings *config;
+
+    DebugInfo *debug_info;
 };
 
 #endif // MAINWINDOW_H

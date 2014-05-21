@@ -22,12 +22,15 @@ unix {
 
 SOURCES += main.cpp \
     mainwindow.cpp \
-    codeparser.cpp
+    codeparser.cpp \
+    debuginfo.cpp
 
 HEADERS  += main.h \
     mainwindow.h \
-    codeparser.h
+    codeparser.h \
+    debuginfo.h
 
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+    debuginfo.ui
 
 CONFIG += c++11
