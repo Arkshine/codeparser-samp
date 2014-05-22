@@ -34,3 +34,4 @@ FORMS += mainwindow.ui \
     debuginfo.ui
 
 CONFIG += c++11
+CONFIG += console
